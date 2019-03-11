@@ -1,8 +1,8 @@
 ﻿using LockMobileClient.Models;
 using LockMobileClient.Services;
 using LockMobileClient.Validations;
+using LockMobileClient.Views;
 using System;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -11,21 +11,46 @@ namespace LockMobileClient.ViewModels
     public class RegistrationViewModel : BaseViewModel
     {
         public ICommand RegisterCmd { get; }
-        public IRemoteServerSyncProxy RemoteServerSyncProxy { get; }
         public ValidatableCode SecretCode { get; }
 
-        Action propChangedCallBack => (RegisterCmd as Command).ChangeCanExecute;
+        protected IRemoteServerSyncProxy RemoteServerSyncProxy { get; }
+        protected INavigationService NavigationService { get; }
 
-        public RegistrationViewModel(IRemoteServerSyncProxy proxy)
+        public RegistrationViewModel(IRemoteServerSyncProxy proxy, INavigationService navigationService)
         {
-            RegisterCmd = new Command(async () => await Register(), () => SecretCode.IsValid);
+            RegisterCmd = new Command(() => RegisterAsync(), () => SecretCode.IsValid);
             RemoteServerSyncProxy = proxy;
-            SecretCode = new ValidatableCode(propChangedCallBack, new CodeValidator());
+            NavigationService = navigationService;
+            SecretCode = new ValidatableCode(PropChangedCallBack, new CodeValidator());
         }
 
-        async Task Register()
+        protected Action PropChangedCallBack => (RegisterCmd as Command).ChangeCanExecute;
+
+        protected async void RegisterAsync()
         {
-            var deviceId = RemoteServerSyncProxy.Register(SecretCode.Value);
+            IsBusy = true;
+            try
+            {
+                var deviceId = RemoteServerSyncProxy.Register(SecretCode.Value);
+                if (deviceId != null)
+                {
+                    SettingsService.DeviceId = deviceId;
+                    await NavigationService.PushAsync(new InnerRegistrationPage());
+                    NavigationService.RemovePreviousPage();
+                }
+                else
+                {
+                    NavigationService.GetCurrentPage().DisplayAlert("Authentication failed", "The typed code is not valid", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO: Prepare exception handling
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

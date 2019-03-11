@@ -9,8 +9,10 @@ namespace LockMobileClient
     {
         protected override void Initialize()
         {
+            Container.RegisterType<INavigationService, NavigationService>();
             Container.RegisterType<IRemoteServerSyncProxy, RemoteServerSyncProxy>();
             Container.RegisterType<RegistrationViewModel>();
+            Container.RegisterType<InnerRegistrationViewModel>();
         }
     }
 }

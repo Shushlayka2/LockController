@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:elements="clr-namespace:LockMobileClient.Elements;assembly=LockMobileClient"
-             x:Class="LockMobileClient.Views.RegistrationPage">
+             x:Class="LockMobileClient.Views.RegistrationPage" Title="Remote lock service provider">
   <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -16,8 +16,10 @@
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <elements:CustomEntry Grid.Row="1" Grid.Column="1"  Placeholder="Enter the secret code" PlaceholderColor="#BABABA" Text="{Binding SecretCode.Value}" FontSize="16"/>
+            <Image Grid.Row="0" Grid.Column="1" HorizontalOptions="Fill" VerticalOptions="Fill" Margin="40" Source="lock_ic.png"/>
+            <elements:CustomEntry Grid.Row="1" Grid.Column="1"  Placeholder="Enter the secret code" PlaceholderColor="#BABABA" Text="{Binding SecretCode.Value}" HorizontalTextAlignment="Center" FontSize="18"/>
             <Button Grid.Row="2" Grid.Column="1"  Text="Register device" BackgroundColor="#3897F0" TextColor="White" HeightRequest="50" VerticalOptions="End" Command="{Binding RegisterCmd}"/>
+            <ActivityIndicator Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="4" IsVisible="True" IsRunning="True"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
