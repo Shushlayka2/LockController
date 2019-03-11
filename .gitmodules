@@ -1,0 +1,3 @@
+[submodule "lockserverapi"]
+	path = lockserverapi
+	url = https://lockserverapi.scm.azurewebsites.net:443/lockserverapi.git
