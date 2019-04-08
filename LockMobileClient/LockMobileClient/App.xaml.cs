@@ -27,7 +27,7 @@ namespace LockMobileClient
             }
             else
             {
-
+                MainPage = new NavigationPage(new InnerRegistrationPage());
             }
         }
 

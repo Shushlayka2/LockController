@@ -18,9 +18,9 @@ namespace LockMobileClient.ViewModels
 
         public RegistrationViewModel(IRemoteServerSyncProxy proxy, INavigationService navigationService)
         {
-            RegisterCmd = new Command(() => RegisterAsync(), () => SecretCode.IsValid);
             RemoteServerSyncProxy = proxy;
             NavigationService = navigationService;
+            RegisterCmd = new Command(() => RegisterAsync(), () => SecretCode.IsValid);
             SecretCode = new ValidatableCode(PropChangedCallBack, new CodeValidator());
         }
 

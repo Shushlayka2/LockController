@@ -1,22 +1,19 @@
 ﻿using PCLAppConfig;
-using Plugin.Settings;
-using Plugin.Settings.Abstractions;
+using Xamarin.Essentials;
 
 namespace LockMobileClient.Services
 {
     public static class SettingsService
     {
-        private static ISettings CrossAppSettings = CrossSettings.Current;
-
         internal static string DeviceId
         {
             get
             {
-                return CrossAppSettings.GetValueOrDefault("DeviceId", "");
+                return SecureStorage.GetAsync("DeviceId").Result;
             }
             set
             {
-                CrossAppSettings.AddOrUpdateValue("DeviceId", value);
+                SecureStorage.SetAsync("DeviceId", value);
             }
         }
 
