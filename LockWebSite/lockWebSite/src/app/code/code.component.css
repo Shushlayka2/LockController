@@ -1,0 +1,27 @@
+button {
+  margin-bottom: 8px;
+  margin-left: 8px;
+}
+
+#btns_line {
+  float: right;
+  width: 420px;
+  padding: 10px;
+}
+
+#delete_button {
+  font-weight: 700;
+  font-size: small;
+  width: 40px;
+  padding: 8px;
+  margin: 7px;
+}
+
+#loading_blog {
+  margin-right: 20px;
+}
+
+label {
+  font-style: italic;
+  font-size: large;
+}
