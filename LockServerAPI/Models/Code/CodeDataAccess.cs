@@ -1,4 +1,5 @@
 ﻿using LockServerAPI.Models.BaseDataAccesses;
+using LockServerAPI.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System;
@@ -16,6 +17,7 @@ namespace LockServerAPI.Models.Code
         /// Ctr
         /// </summary>
         /// <param name="configuration">Configuration</param>
+        /// <param name="database">Database context</param>
         public CodeDataAccess(IConfiguration configuration, DatabaseContext database)
             : base(database)
         {
@@ -47,7 +49,8 @@ namespace LockServerAPI.Models.Code
                                   {
                                       Id = Convert.ToInt32(dr["id"]),
                                       CodeVal = dr["code"].ToString(),
-                                      LockId = dr["lock_id"].ToString()
+                                      LockId = dr["lock_id"].ToString(),
+                                      Config = dr["config"].ToString()
                                   }).ToList();
                     }
                 }
@@ -62,30 +65,61 @@ namespace LockServerAPI.Models.Code
         /// <summary>
         /// Generate new code
         /// </summary>
-        public void GenerateCode()
+        /// <param name="lockId">Lock identifier</param>
+        /// <param name="config">Connection configuration</param>
+        public void GenerateCode(string lockId, string config)
         {
             var code = new Code();
             code.GenerateSecretCode();
-            code.GenerateLockId();
+            code.LockId = lockId;
+            code.Config = config;
             Database.Codes.Add(code);
             Database.SaveChanges();
         }
 
+        public void EditCode(CodeViewModel model)
+        {
+            var oldCode = (from elem in GetCodes()
+                           where elem.Id == model.Id
+                           select elem).FirstOrDefault();
+            var newCode = oldCode;
+            newCode.LockId = model.LockId ?? newCode.LockId;
+            newCode.Config = model.Config ?? newCode.Config;
+            using (var conn = new NpgsqlConnection(Configuration.GetConnectionString("DefaultConnection")))
+            {
+                var query = @"select from edit_code(:id, :code, :lock_id, :config)";
+                conn.Open();
+                try
+                {
+                    var pgcom = new NpgsqlCommand(query, conn);
+                    pgcom.CommandType = CommandType.Text;
+                    pgcom.Parameters.AddWithValue("id", newCode.Id);
+                    pgcom.Parameters.AddWithValue("code", newCode.CodeVal);
+                    pgcom.Parameters.AddWithValue("lock_id", newCode.LockId);
+                    pgcom.Parameters.AddWithValue("config", newCode.Config);
+                    var pgreader = pgcom.ExecuteReader();
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
         /// <summary>
-        /// Delete code
+        /// Delete the code
         /// </summary>
         /// <param name="code">Code</param>
         public void RemoveCode(Code code)
         {
             using (var conn = new NpgsqlConnection(Configuration.GetConnectionString("DefaultConnection")))
             {
-                var query = @"select from remove_code(:id, :code, :lock_id)";
+                var query = @"select from remove_code(:code, :lock_id)";
                 conn.Open();
                 try
                 {
                     var pgcom = new NpgsqlCommand(query, conn);
                     pgcom.CommandType = CommandType.Text;
-                    pgcom.Parameters.AddWithValue("id", code.Id);
                     pgcom.Parameters.AddWithValue("code", code.CodeVal);
                     pgcom.Parameters.AddWithValue("lock_id", code.LockId);
                     var pgreader = pgcom.ExecuteReader();
@@ -102,9 +136,9 @@ namespace LockServerAPI.Models.Code
         /// </summary>
         /// <param name="code">Code</param>
         /// <returns>User id</returns>
-        public string FindCode(string code)
+        public (string lockId, string config) FindCode(string code)
         {
-            string result = null;
+            (string lockId, string config) tuple = (null, null);
             using (var conn = new NpgsqlConnection(Configuration.GetConnectionString("DefaultConnection")))
             {
                 var query = @"select * from search_code(:code)";
@@ -118,7 +152,7 @@ namespace LockServerAPI.Models.Code
                     if (pgreader.HasRows)
                     {
                         pgreader.Read();
-                        result = pgreader.GetString(0);
+                        tuple = (pgreader.GetString(0), pgreader.GetString(1));
                     }
                 }
                 finally
@@ -126,7 +160,7 @@ namespace LockServerAPI.Models.Code
                     conn.Close();
                 }
             }
-            return result;
+            return tuple;
         }
     }
 }

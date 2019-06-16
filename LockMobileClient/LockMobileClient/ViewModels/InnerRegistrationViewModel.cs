@@ -42,6 +42,8 @@ namespace LockMobileClient.ViewModels
 
         protected async void ConfirmAsync()
         {
+            SettingsService.Password = Password.Value;
+            await NavigationService.PushAsync(new MainPage());
         }
     }
 }

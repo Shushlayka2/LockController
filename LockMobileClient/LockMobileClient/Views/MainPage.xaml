@@ -1,16 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LockMobileClient.MainPage">
-
-    <ContentPage.Content>
-        <Grid BackgroundColor="White">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="4*"/>
-                <RowDefinition Height="3*"/>
-            </Grid.RowDefinitions>
-            <Image Grid.Row="0" Source="ic_fp_40px.png" VerticalOptions="CenterAndExpand" Margin="0, 100, 0, 0" HeightRequest="130" WidthRequest="130"/>
-            <Label Grid.Row="1" Text="Scan the finger for unlock the lock" FontFamily="Verdana" FontSize="Large" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-        </Grid>
-    </ContentPage.Content>
+             x:Class="LockMobileClient.MainPage" BackgroundColor="#BAC6DB">
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Style.Triggers>
+                <DataTrigger TargetType="Label" Binding="{Binding Source={x:Reference CommandText}, Path=Text}" Value="Open">
+                    <Setter Property="TextColor" Value="#3B7428"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions> 
+            <ColumnDefinition/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="CommandText" Grid.Row="1" Grid.Column="1" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding CommandText}" FontFamily="Roboto" FontSize="46"/>
+        <ImageButton Grid.Row="2" Grid.Column="1" Source="{Binding ImageSource}" Command="{Binding LockCmd}" BorderColor="Transparent" BackgroundColor="Transparent" WidthRequest="50"/>
+        <!--<Label Grid.Row="3" Grid.Column="1" TextColor="Red" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Please, turn on the Bluetooth!" IsVisible="{Binding IsAlertShown}"/>-->
+    </Grid>
 </ContentPage>

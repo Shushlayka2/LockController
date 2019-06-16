@@ -1,5 +1,6 @@
 ﻿using LockServerAPI.Models.BaseDataAccesses;
 using LockServerAPI.Models.Code;
+using LockServerAPI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -30,32 +31,37 @@ namespace LockServerAPI.Controllers
             return new JsonResult(result);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("generatecode")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult GenerateCode()
+        public void GenerateCode([FromBody]CodeViewModel model)
         {
-            List<Code> result = null;
             using (var dataAccess = DataAccessService.GetDataAccess<ICodeDataAccess>())
             {
-                dataAccess.GenerateCode();
-                result = dataAccess.GetCodes();
+                dataAccess.GenerateCode(model.LockId, model.Config);
             }
-            return new JsonResult(result);
+        }
+
+        [HttpPost]
+        [Route("editcode")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public void EditCode([FromBody]CodeViewModel model)
+        {
+            using (var dataAccess = DataAccessService.GetDataAccess<ICodeDataAccess>())
+            {
+                dataAccess.EditCode(model);
+            }
         }
 
         [HttpPost]
         [Route("removecode")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public IActionResult RemoveCode([FromBody]Code code)
+        public void RemoveCode([FromBody]Code code)
         {
-            List<Code> result = null;
             using (var dataAccess = DataAccessService.GetDataAccess<ICodeDataAccess>())
             {
                 dataAccess.RemoveCode(code);
-                result = dataAccess.GetCodes();
             }
-            return new JsonResult(result);
         }
     }
 }

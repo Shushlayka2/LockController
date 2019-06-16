@@ -40,7 +40,7 @@ namespace LockMobileClient.ViewModels
                 }
                 else
                 {
-                    NavigationService.GetCurrentPage().DisplayAlert("Authentication failed", "The typed code is not valid", "OK");
+                    await NavigationService.GetCurrentPage().DisplayAlert("Authentication failed", "The typed code is not valid", "OK");
                 }
             }
             catch (Exception ex)

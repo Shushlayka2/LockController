@@ -11,23 +11,20 @@ namespace LockMobileClient
     {
         public IUnityContainer Container { get; } = new UnityContainer();
 
-
         public App()
         {
             InitializeComponent();
             Container.AddExtension(new BaseContainerExtension());
 
-#if DEBUG
-            Container.AddExtension(new Diagnostic());
-#endif
             var test = Container.Resolve<IRemoteServerSyncProxy>();
+
             if (SettingsService.DeviceId == "")
             {
                 MainPage = new NavigationPage(new RegistrationPage());
             }
             else
             {
-                MainPage = new NavigationPage(new InnerRegistrationPage());
+                MainPage = new NavigationPage(new MainPage());
             }
         }
 

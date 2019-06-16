@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServerAPI", "ServerAPI", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockServerAPI", "LockServerAPI\LockServerAPI.csproj", "{234119EC-013B-48AE-8742-7FCD806F5FD3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SingleBoardController", "SingleBoardController", "{ECDF1CB0-BAFB-47A0-B1F0-0524E64BDF2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockSingleBoardController", "LockSingleBoardController\LockSingleBoardController.csproj", "{53471588-7977-45AF-B808-186C9D63DF21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,10 @@ Global
 		{234119EC-013B-48AE-8742-7FCD806F5FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{234119EC-013B-48AE-8742-7FCD806F5FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{234119EC-013B-48AE-8742-7FCD806F5FD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53471588-7977-45AF-B808-186C9D63DF21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53471588-7977-45AF-B808-186C9D63DF21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53471588-7977-45AF-B808-186C9D63DF21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53471588-7977-45AF-B808-186C9D63DF21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +51,7 @@ Global
 		{DBAB8148-9346-48C6-8277-87A29A960ED8} = {CCABB080-A571-40C5-8DAC-E560BF98064C}
 		{A6B12891-43DD-4106-9351-17FDC1A98E9D} = {CCABB080-A571-40C5-8DAC-E560BF98064C}
 		{234119EC-013B-48AE-8742-7FCD806F5FD3} = {1488446F-5C60-4B44-A4E7-A6A041F3DC12}
+		{53471588-7977-45AF-B808-186C9D63DF21} = {ECDF1CB0-BAFB-47A0-B1F0-0524E64BDF2C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BDAB9A82-7FA5-4A8D-9598-FB62DDC98C21}
