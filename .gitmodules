@@ -1,6 +1,3 @@
-[submodule "lockserverapi"]
-	path = LockServerAPI
-	url = https://lockserverapi.scm.azurewebsites.net:443/lockserverapi.git
 [submodule "locksingleboardcontroller"]
 	path = LockSingleBoardController
 	url = https://gitlab.com/Shushlayka2/locksingleboardcontroller.git

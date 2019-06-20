@@ -2,6 +2,6 @@
 {
     public interface IRemoteServerSyncProxy
     {
-        string Register(string code);
+        (string deviceId, string config) Register(string code);
     }
 }

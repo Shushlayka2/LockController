@@ -15,15 +15,16 @@ namespace LockMobileClient.Services
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public string Register(string code)
+        public (string deviceId, string config) Register(string code)
         {
-            string deviceId = null;
+            (string deviceId, string config) tuple = (null, null);
+
             var response = HttpClient.PostAsJsonAsync("api/registry", code).Result;
             if (response.IsSuccessStatusCode)
             {
-                deviceId = response.Content.ReadAsAsync<string>().Result;
+                tuple = response.Content.ReadAsAsync<(string, string)>().Result;
             }
-            return deviceId;
+            return tuple;
         }
     }
 }

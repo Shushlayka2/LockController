@@ -31,10 +31,11 @@ namespace LockMobileClient.ViewModels
             IsBusy = true;
             try
             {
-                var deviceId = RemoteServerSyncProxy.Register(SecretCode.Value);
-                if (deviceId != null)
+                (string deviceId, string config) tuple = RemoteServerSyncProxy.Register(SecretCode.Value);
+                if (tuple.deviceId != null)
                 {
-                    SettingsService.DeviceId = deviceId;
+                    SettingsService.DeviceId = tuple.deviceId;
+                    SettingsService.ServiceConnectionString = tuple.config;
                     await NavigationService.PushAsync(new InnerRegistrationPage());
                     NavigationService.RemovePreviousPage();
                 }
