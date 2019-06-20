@@ -4,3 +4,6 @@
 [submodule "LockWebSite"]
 	path = LockWebSite
 	url = https://gitlab.com/Shushlayka2/lockwebsite.git
+[submodule "LockServerAPI"]
+	path = LockServerAPI
+	url = https://lockserverapi.scm.azurewebsites.net:443/lockserverapi.git
