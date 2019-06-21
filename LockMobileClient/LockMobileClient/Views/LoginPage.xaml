@@ -1,12 +1,79 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LockMobileClient.Views.LoginPage">
+             xmlns:elements="clr-namespace:LockMobileClient.Elements;assembly=LockMobileClient"
+             x:Class="LockMobileClient.Views.LoginPage"
+             BackgroundColor="#585B7C"
+             NavigationPage.HasNavigationBar="false">
+    <ContentPage.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="10, 0, 10, 0"/>
+            <Setter Property="BorderWidth" Value="0"/>
+            <Setter Property="TextColor" Value="#C8CED4"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Style.Triggers>
+                <EventTrigger Event="Pressed">
+                    <elements:ChangeColorOnPressButton/>
+                </EventTrigger>
+                <EventTrigger Event="Released">
+                    <elements:ChangeColorOnReleaseButton/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ImageButtonStyle" TargetType="ImageButton">
+            <Style.Triggers>
+                <EventTrigger Event="Pressed">
+                    <elements:ChangeColorOnPressImageButton/>
+                </EventTrigger>
+                <EventTrigger Event="Released">
+                    <elements:ChangeColorOnReleaseImageButton/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3.3*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="6*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Row="0" Grid.Column="1" HorizontalOptions="Fill" VerticalOptions="Fill" Margin="20" Source="password_ic.png"/>
+            <elements:BindableStackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="20" Items="{Binding Points}"/>
+            <Grid Grid.Row="3" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="OneBtn" Grid.Row="0" Grid.Column="0" Text="1" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference OneBtn}, Path=Text}"/>
+                <Button x:Name="TwoBtn" Grid.Row="0" Grid.Column="1" Text="2" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference TwoBtn}, Path=Text}"/>
+                <Button x:Name="ThreeBtn" Grid.Row="0" Grid.Column="2" Text="3" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference ThreeBtn}, Path=Text}"/>
+                <Button x:Name="FourBtn" Grid.Row="1" Grid.Column="0" Text="4" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference FourBtn}, Path=Text}"/>
+                <Button x:Name="FiveBtn" Grid.Row="1" Grid.Column="1" Text="5" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference FiveBtn}, Path=Text}"/>
+                <Button x:Name="SixBtn" Grid.Row="1" Grid.Column="2" Text="6" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference SixBtn}, Path=Text}"/>
+                <Button x:Name="SevenBtn" Grid.Row="2" Grid.Column="0" Text="7" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference SevenBtn}, Path=Text}"/>
+                <Button x:Name="EightBtn" Grid.Row="2" Grid.Column="1" Text="8" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference EightBtn}, Path=Text}"/>
+                <Button x:Name="NineBtn" Grid.Row="2" Grid.Column="2" Text="9" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference NineBtn}, Path=Text}"/>
+                <Button Grid.Row="3" Grid.Column="0" Text="EXIT" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding CloseAppCmd}" FontSize="Large"/>
+                <Button x:Name="ZeroBtn" Grid.Row="3" Grid.Column="1" Text="0" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference ZeroBtn}, Path=Text}"/>
+                <ImageButton Grid.Row="3" Grid.Column="2" CornerRadius="40" Margin="10, 0, 10, 0" BackgroundColor="Transparent" Padding="20" Source="delete_ic.png" Style="{StaticResource ImageButtonStyle}" Command="{Binding DeleteLastNumCmd}"/>
+            </Grid>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

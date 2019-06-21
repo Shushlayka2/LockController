@@ -7,11 +7,30 @@
              NavigationPage.HasNavigationBar="false">
     <ContentPage.Resources>
         <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="10, 0, 10, 0"/>
             <Setter Property="BorderWidth" Value="0"/>
             <Setter Property="TextColor" Value="#C8CED4"/>
             <Setter Property="FontSize" Value="30"/>
             <Setter Property="FontFamily" Value="Roboto"/>
             <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Style.Triggers>
+                <EventTrigger Event="Pressed">
+                    <elements:ChangeColorOnPressButton/>
+                </EventTrigger>
+                <EventTrigger Event="Released">
+                    <elements:ChangeColorOnReleaseButton/>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ImageButtonStyle" TargetType="ImageButton">
+            <Style.Triggers>
+                <EventTrigger Event="Pressed">
+                    <elements:ChangeColorOnPressImageButton/>
+                </EventTrigger>
+                <EventTrigger Event="Released">
+                    <elements:ChangeColorOnReleaseImageButton/>
+                </EventTrigger>
+            </Style.Triggers>
         </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -30,8 +49,8 @@
             </Grid.ColumnDefinitions>
             <Image Grid.Row="0" Grid.Column="1" HorizontalOptions="Fill" VerticalOptions="Fill" Margin="20" Source="password_ic.png"/>
             <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-                <elements:CustomPasswordEntry  Placeholder="Create the password" WidthRequest="190" PlaceholderColor="#C8CED4" Text="{Binding Password.Value}" FontSize="18" FontFamily="Roboto" TextColor="Black" IsEnabled="True"/>
-                <Button Text="SUBMIT" WidthRequest="110" Margin="5, 0, 0, 0" Style="{StaticResource ButtonStyle}" FontSize="Large"/>
+                <elements:CustomPasswordEntry  Placeholder="New password" WidthRequest="190" PlaceholderColor="#C8CED4" Text="{Binding Password.Value}" FontSize="26" FontFamily="Roboto" TextColor="White" HorizontalTextAlignment="Center" IsEnabled="True"/>
+                <Button Text="SUBMIT" WidthRequest="110" Margin="5, 0, 0, 0" Style="{StaticResource ButtonStyle}" Command="{Binding ConfirmCmd}" FontSize="Large"/>
             </StackLayout>
             <Grid Grid.Row="3" Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -45,22 +64,18 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="OneBtn" Grid.Row="0" Grid.Column="0" Text="1" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference OneBtn}, Path=Text}"/>
-                <Button x:Name="TwoBtn" Grid.Row="0" Grid.Column="1" Text="2" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference TwoBtn}, Path=Text}"/>
-                <Button x:Name="ThreeBtn" Grid.Row="0" Grid.Column="2" Text="3" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference ThreeBtn}, Path=Text}"/>
-                <Button x:Name="FourBtn" Grid.Row="1" Grid.Column="0" Text="4" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference FourBtn}, Path=Text}"/>
-                <Button x:Name="FiveBtn" Grid.Row="1" Grid.Column="1" Text="5" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference FiveBtn}, Path=Text}"/>
-                <Button x:Name="SixBtn" Grid.Row="1" Grid.Column="2" Text="6" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference SixBtn}, Path=Text}"/>
-                <Button x:Name="SevenBtn" Grid.Row="2" Grid.Column="0" Text="7" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference SevenBtn}, Path=Text}"/>
-                <Button x:Name="EightBtn" Grid.Row="2" Grid.Column="1" Text="8" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference EightBtn}, Path=Text}"/>
-                <Button x:Name="NineBtn" Grid.Row="2" Grid.Column="2" Text="9" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference NineBtn}, Path=Text}"/>
-                <Button Grid.Row="3" Grid.Column="0" Text="EXIT" Style="{StaticResource ButtonStyle}" FontSize="Large"/>
-                <Button x:Name="ZeroBtn" Grid.Row="3" Grid.Column="1" Text="0" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference ZeroBtn}, Path=Text}"/>
-                <Image Grid.Row="3" Grid.Column="2" Source="delete_ic.png" Margin="23">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding DeleteLastNumCmd}" NumberOfTapsRequired="1"/>
-                    </Image.GestureRecognizers>
-                </Image>
+                <Button x:Name="OneBtn" Grid.Row="0" Grid.Column="0" Text="1" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference OneBtn}, Path=Text}"/>
+                <Button x:Name="TwoBtn" Grid.Row="0" Grid.Column="1" Text="2" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference TwoBtn}, Path=Text}"/>
+                <Button x:Name="ThreeBtn" Grid.Row="0" Grid.Column="2" Text="3" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference ThreeBtn}, Path=Text}"/>
+                <Button x:Name="FourBtn" Grid.Row="1" Grid.Column="0" Text="4" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference FourBtn}, Path=Text}"/>
+                <Button x:Name="FiveBtn" Grid.Row="1" Grid.Column="1" Text="5" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference FiveBtn}, Path=Text}"/>
+                <Button x:Name="SixBtn" Grid.Row="1" Grid.Column="2" Text="6" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference SixBtn}, Path=Text}"/>
+                <Button x:Name="SevenBtn" Grid.Row="2" Grid.Column="0" Text="7" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference SevenBtn}, Path=Text}"/>
+                <Button x:Name="EightBtn" Grid.Row="2" Grid.Column="1" Text="8" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference EightBtn}, Path=Text}"/>
+                <Button x:Name="NineBtn" Grid.Row="2" Grid.Column="2" Text="9" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference NineBtn}, Path=Text}"/>
+                <Button Grid.Row="3" Grid.Column="0" Text="EXIT" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding CloseAppCmd}" FontSize="Large"/>
+                <Button x:Name="ZeroBtn" Grid.Row="3" Grid.Column="1" Text="0" CornerRadius="40" Style="{StaticResource ButtonStyle}" Command="{Binding AddNumButtonCmd}" CommandParameter="{Binding Source={x:Reference ZeroBtn}, Path=Text}"/>
+                <ImageButton Grid.Row="3" Grid.Column="2" CornerRadius="40" Margin="10, 0, 10, 0" BackgroundColor="Transparent" Padding="20" Source="delete_ic.png" Style="{StaticResource ImageButtonStyle}" Command="{Binding DeleteLastNumCmd}"/>
             </Grid>
         </Grid>
     </ContentPage.Content>

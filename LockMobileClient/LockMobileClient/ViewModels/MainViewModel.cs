@@ -1,5 +1,6 @@
 ﻿using LockMobileClient.Models;
 using LockMobileClient.Services;
+using System;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -8,7 +9,6 @@ namespace LockMobileClient.ViewModels
     public class MainViewModel : BaseViewModel
     {
         public string ImageSource { get; set; }
-        //public bool IsAlertShown { get; set; }
         public string CommandText { get; set; }
         public ICommand LockCmd { get; }
 
@@ -32,12 +32,12 @@ namespace LockMobileClient.ViewModels
             }
         }
 
-        //protected IBluetoothService BluetoothService { get; }
         protected INavigationService NavigationService { get; }
         protected IIoTServiceProxy IoTServiceProxy { get; }
 
         public MainViewModel(IIoTServiceProxy _IoTServiceProxy, INavigationService navigationService)
         {
+            IsBusy = true;
             NavigationService = navigationService;
             IoTServiceProxy = _IoTServiceProxy;
             LockCmd = new Command(() => LockAsync());
@@ -52,7 +52,19 @@ namespace LockMobileClient.ViewModels
 
         protected async void CheckLockStateAsync()
         {
-            LockState = await IoTServiceProxy.GetLockStatusAsync();
+            try
+            {
+                LockState = await IoTServiceProxy.GetLockStatusAsync();
+            }
+            catch (Exception ex)
+            {
+                await NavigationService.GetCurrentPage().DisplayAlert("IoT controller exception", "Connection invalid", "OK");
+                await NavigationService.PopAsync();
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

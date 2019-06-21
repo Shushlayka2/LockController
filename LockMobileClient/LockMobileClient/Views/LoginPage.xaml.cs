@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using LockMobileClient.ViewModels;
+using Unity;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,6 +11,9 @@ namespace LockMobileClient.Views
         public LoginPage()
         {
             InitializeComponent();
+            var vm = (Application.Current as App).Container.Resolve<LoginViewModel>();
+            BindingContext = vm;
+            vm.GeneratePoints();
         }
     }
 }

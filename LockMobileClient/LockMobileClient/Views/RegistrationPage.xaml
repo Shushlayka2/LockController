@@ -5,7 +5,12 @@
              x:Class="LockMobileClient.Views.RegistrationPage"
              Title="Remote lock service provider"
              NavigationPage.HasNavigationBar="false">
-  <ContentPage.Content>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <elements:InverseBoolConverter x:Key="inverseBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="4*"/>
@@ -18,9 +23,10 @@
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Image Grid.Row="0" Grid.Column="1" Margin="40" Source="lock_ic.png"/>
-            <elements:CustomEntry Grid.Row="1" Grid.Column="1" Placeholder="Enter the secret code" PlaceholderColor="#8492A6" Text="{Binding SecretCode.Value}" HorizontalTextAlignment="Center" FontSize="18" FontFamily="Roboto" TextColor="#8492A6"/>
-            <Button Grid.Row="2" Grid.Column="1"  Text="Register device" BackgroundColor="#47525E" TextColor="White" Command="{Binding RegisterCmd}"/>
+            <Image Grid.Row="0" Grid.Column="1" Margin="40" Source="lock_ic.png" IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}}"/>
+            <elements:CustomEntry Grid.Row="1" Grid.Column="1" Placeholder="Enter the secret code" PlaceholderColor="#8492A6" Text="{Binding SecretCode.Value}" IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}}" HorizontalTextAlignment="Center" FontSize="18" FontFamily="Roboto" TextColor="#8492A6"/>
+            <Button Grid.Row="2" Grid.Column="1"  Text="Register device" BackgroundColor="#47525E" TextColor="White" Command="{Binding RegisterCmd}" IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}}"/>
+            <ActivityIndicator Grid.Row="0" Grid.RowSpan="4" Grid.Column="1" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" WidthRequest="200" HeightRequest="80" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

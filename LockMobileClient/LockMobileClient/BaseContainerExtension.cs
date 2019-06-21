@@ -17,6 +17,7 @@ namespace LockMobileClient
             Container.RegisterType<IRemoteServerSyncProxy, RemoteServerSyncProxy>();
             Container.RegisterType<RegistrationViewModel>();
             Container.RegisterType<InnerRegistrationViewModel>();
+            Container.RegisterType<LoginViewModel>();
             Container.RegisterType<MainViewModel>(new InjectionConstructor(typeof(IIoTServiceProxy), typeof(INavigationService)));
             Container.RegisterType<IIoTServiceProxy, IoTServiceProxy>();
         }

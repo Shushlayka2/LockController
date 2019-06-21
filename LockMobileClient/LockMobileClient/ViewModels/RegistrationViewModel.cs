@@ -3,6 +3,8 @@ using LockMobileClient.Services;
 using LockMobileClient.Validations;
 using LockMobileClient.Views;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -31,6 +33,7 @@ namespace LockMobileClient.ViewModels
             IsBusy = true;
             try
             {
+                await new Task(() => Thread.Sleep(10000));
                 (string deviceId, string config) tuple = RemoteServerSyncProxy.Register(SecretCode.Value);
                 if (tuple.deviceId != null)
                 {

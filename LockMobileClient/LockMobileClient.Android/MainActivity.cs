@@ -16,6 +16,7 @@ namespace LockMobileClient.Droid
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
+            //CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
             LoadApplication(new App());
         }
     }

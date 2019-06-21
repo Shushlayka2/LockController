@@ -7,32 +7,25 @@ using Xamarin.Forms;
 
 namespace LockMobileClient.ViewModels
 {
-    public class InnerRegistrationViewModel : BaseViewModel
+    public class InnerRegistrationViewModel : CommonAuthViewModel
     {
         public ICommand ConfirmCmd { get; }
-        public ICommand AddNumButtonCmd { get; }
-        public ICommand DeleteLastNumCmd { get; }
-        public ValidatablePassword Password { get; }
-
-        protected INavigationService NavigationService { get; }
-
+        public override ValidatablePassword Password { get; protected set; }
         public InnerRegistrationViewModel(INavigationService navigationService)
+            : base(navigationService)
         {
-            NavigationService = navigationService;
-            AddNumButtonCmd = new Command((num) => AddNum((string)num));
-            DeleteLastNumCmd = new Command(() => DeleteLastNum());
             ConfirmCmd = new Command(() => ConfirmAsync(), () => Password.IsValid);
             Password = new ValidatablePassword(PropChangedCallBack, new PasswordValidator());
         }
 
         protected Action PropChangedCallBack => (ConfirmCmd as Command).ChangeCanExecute;
 
-        protected void AddNum(string num)
+        protected override void AddNum(string num)
         {
             Password.Value += num;
         }
 
-        protected void DeleteLastNum()
+        protected override void DeleteLastNum()
         {
             if (!string.IsNullOrEmpty(Password.Value))
             {

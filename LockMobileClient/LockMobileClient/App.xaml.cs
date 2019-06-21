@@ -17,14 +17,20 @@ namespace LockMobileClient
             Container.AddExtension(new BaseContainerExtension());
 
             var test = Container.Resolve<IRemoteServerSyncProxy>();
-            SettingsService.DeviceId = "";
             if (SettingsService.DeviceId == "")
             {
                 MainPage = new NavigationPage(new RegistrationPage());
             }
             else
             {
-                MainPage = new NavigationPage(new MainPage());
+                if (SettingsService.Password == "")
+                {
+                    MainPage = new NavigationPage(new InnerRegistrationPage());
+                }
+                else
+                {
+                    MainPage = new NavigationPage(new LoginPage());
+                }
             }
         }
 
