@@ -2,6 +2,7 @@
 using Android.Content.PM;
 using Android.OS;
 using PCLAppConfig;
+using Plugin.Fingerprint;
 
 namespace LockMobileClient.Droid
 {
@@ -15,8 +16,8 @@ namespace LockMobileClient.Droid
 
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            CrossFingerprint.SetCurrentActivityResolver(() => this);
             ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
-            //CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
             LoadApplication(new App());
         }
     }

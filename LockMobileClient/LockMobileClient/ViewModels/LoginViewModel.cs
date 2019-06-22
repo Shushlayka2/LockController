@@ -24,15 +24,20 @@ namespace LockMobileClient.ViewModels
         protected override async void AddNum(string num)
         {
             Password.Value += num;
+            Points[Password.Value.Length - 1].BackgroundColor = Color.White;
             if (Password.Value.Length == 5)
             {
                 if (Password.Value == SettingsService.Password)
                 {
                     await NavigationService.PushAsync(new MainPage());
+                    Points.Select(p => p.BackgroundColor = Color.Gray);
+                    foreach (var p in Points)
+                    {
+                        p.BackgroundColor = Color.Gray;
+                    }
                 }
                 else
                 {
-                    Thread.Sleep(1000);
                     Vibration.Vibrate();
                     Password.Value = "";
                     Points.Select(p => p.BackgroundColor = Color.Gray);
@@ -41,10 +46,6 @@ namespace LockMobileClient.ViewModels
                         p.BackgroundColor = Color.Gray;
                     }
                 }
-            }
-            else
-            {
-                Points[Password.Value.Length - 1].BackgroundColor = Color.White;
             }
         }
 

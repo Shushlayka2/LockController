@@ -1,8 +1,8 @@
 ﻿using LockMobileClient.Models;
 using LockMobileClient.Services;
+using Plugin.Fingerprint;
+using Plugin.Fingerprint.Abstractions;
 using System;
-using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace LockMobileClient.ViewModels
 {
@@ -10,7 +10,6 @@ namespace LockMobileClient.ViewModels
     {
         public string ImageSource { get; set; }
         public string CommandText { get; set; }
-        public ICommand LockCmd { get; }
 
         private LockState lockState;
         public LockState LockState
@@ -40,14 +39,22 @@ namespace LockMobileClient.ViewModels
             IsBusy = true;
             NavigationService = navigationService;
             IoTServiceProxy = _IoTServiceProxy;
-            LockCmd = new Command(() => LockAsync());
+            CommandText = "Open";
             ImageSource = "open_lock.png";
             CheckLockStateAsync();
+            ManageFingerPrint();
         }
 
-        protected async void LockAsync()
+        protected async void ManageFingerPrint()
         {
-            LockState = await IoTServiceProxy.ChangeLockStateAsync();
+            AuthenticationRequestConfiguration config = new AuthenticationRequestConfiguration("");
+            config.UseDialog = false;
+            var result = await CrossFingerprint.Current.AuthenticateAsync(config);
+            if (!IsBusy && result.Authenticated)
+            {
+                LockState = await IoTServiceProxy.ChangeLockStateAsync();
+            }
+            ManageFingerPrint();
         }
 
         protected async void CheckLockStateAsync()
@@ -58,6 +65,7 @@ namespace LockMobileClient.ViewModels
             }
             catch (Exception ex)
             {
+                IsBusy = false;
                 await NavigationService.GetCurrentPage().DisplayAlert("IoT controller exception", "Connection invalid", "OK");
                 await NavigationService.PopAsync();
             }

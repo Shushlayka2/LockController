@@ -1,7 +1,9 @@
-﻿namespace LockMobileClient.Services
+﻿using System.Threading.Tasks;
+
+namespace LockMobileClient.Services
 {
     public interface IRemoteServerSyncProxy
     {
-        (string deviceId, string config) Register(string code);
+        Task<(string deviceId, string lockId, string config)> RegisterAsync(string code);
     }
 }

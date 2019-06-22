@@ -30,7 +30,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Label x:Name="CommandText" Grid.Row="1" Grid.Column="1" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding CommandText}" IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}}" FontFamily="Roboto" FontSize="46"/>
-        <ImageButton Grid.Row="2" Grid.Column="1" Source="{Binding ImageSource}" Command="{Binding LockCmd}" IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}}" BorderColor="Transparent" BackgroundColor="Transparent" WidthRequest="50"/>
+        <Image Grid.Row="2" Grid.Column="1" Source="{Binding ImageSource}" IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}}" BackgroundColor="Transparent" WidthRequest="50"/>
         <ActivityIndicator Grid.Row="2" Grid.Column="1" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" WidthRequest="200" HeightRequest="80" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
     </Grid>
 </ContentPage>
