@@ -145,28 +145,40 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\delete_ic.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\open_lock.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\lock_opened.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\close_lock.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\lock_closed.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\close_lock.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\lock_closed.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\open_lock.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\lock_opened.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\close_lock.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\lock_closed.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\open_lock.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\lock_opened.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\close_lock.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\lock_closed.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\open_lock.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\lock_opened.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\fingerprint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\fingerprint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\fingerprint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\fingerprint.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

@@ -1,13 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:LockMobileClient.Elements"
              x:Class="LockMobileClient.MainPage" BackgroundColor="#BAC6DB"
              NavigationPage.HasNavigationBar="false">
     <ContentPage.Resources>
-        <ResourceDictionary>
-            <local:InverseBoolConverter x:Key="inverseBoolConverter" />
-        </ResourceDictionary>
         <Style TargetType="Label">
             <Style.Triggers>
                 <DataTrigger TargetType="Label" Binding="{Binding Source={x:Reference CommandText}, Path=Text}" Value="Open">
@@ -18,7 +14,8 @@
     </ContentPage.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
+            <RowDefinition/>
+            <RowDefinition Height="1.5*"/>
             <RowDefinition/>
             <RowDefinition Height="2*"/>
             <RowDefinition/>
@@ -29,8 +26,19 @@
             <ColumnDefinition Width="6*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="CommandText" Grid.Row="1" Grid.Column="1" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding CommandText}" IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}}" FontFamily="Roboto" FontSize="46"/>
-        <Image Grid.Row="2" Grid.Column="1" Source="{Binding ImageSource}" IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}}" BackgroundColor="Transparent" WidthRequest="50"/>
-        <ActivityIndicator Grid.Row="2" Grid.Column="1" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" WidthRequest="200" HeightRequest="80" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+        <Grid Grid.ColumnSpan="3" BackgroundColor="#585B7C">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Image Source="fingerprint.png" HeightRequest="30" WidthRequest="30"/>
+            </StackLayout>
+            <Label Grid.Column="1" Text="Use fingerprint control" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Medium"/>
+            <ActivityIndicator Grid.Column="2" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
+        </Grid>
+        <Label x:Name="CommandText" Grid.Row="2" Grid.Column="1" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Text="{Binding CommandText}" IsVisible="{Binding IsLoaded}" FontFamily="Roboto" FontSize="46"/>
+        <Image Grid.Row="3" Grid.Column="1" Source="{Binding ImageSource}" IsVisible="{Binding IsLoaded}" BackgroundColor="Transparent" WidthRequest="50"/>
     </Grid>
 </ContentPage>

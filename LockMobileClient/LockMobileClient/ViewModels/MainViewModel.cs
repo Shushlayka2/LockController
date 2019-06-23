@@ -3,6 +3,7 @@ using LockMobileClient.Services;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using System;
+using System.Threading.Tasks;
 
 namespace LockMobileClient.ViewModels
 {
@@ -10,6 +11,7 @@ namespace LockMobileClient.ViewModels
     {
         public string ImageSource { get; set; }
         public string CommandText { get; set; }
+        public bool IsLoaded { get; set; }
 
         private LockState lockState;
         public LockState LockState
@@ -20,13 +22,13 @@ namespace LockMobileClient.ViewModels
                 lockState = value;
                 if (lockState == LockState.Opened)
                 {
-                    CommandText = "Close";
-                    ImageSource = "close_lock.png";
+                    CommandText = "Opened";
+                    ImageSource = "lock_opened.png";
                 }
                 else
                 {
-                    CommandText = "Open";
-                    ImageSource = "open_lock.png";
+                    CommandText = "Closed";
+                    ImageSource = "lock_closed.png";
                 }
             }
         }
@@ -37,24 +39,27 @@ namespace LockMobileClient.ViewModels
         public MainViewModel(IIoTServiceProxy _IoTServiceProxy, INavigationService navigationService)
         {
             IsBusy = true;
+            IsLoaded = false;
             NavigationService = navigationService;
             IoTServiceProxy = _IoTServiceProxy;
-            CommandText = "Open";
-            ImageSource = "open_lock.png";
+            ImageSource = "";
             CheckLockStateAsync();
-            ManageFingerPrint();
         }
 
-        protected async void ManageFingerPrint()
+        protected async Task ManageFingerPrintAsync()
         {
-            AuthenticationRequestConfiguration config = new AuthenticationRequestConfiguration("");
-            config.UseDialog = false;
-            var result = await CrossFingerprint.Current.AuthenticateAsync(config);
-            if (!IsBusy && result.Authenticated)
+            while (true)
             {
-                LockState = await IoTServiceProxy.ChangeLockStateAsync();
+                AuthenticationRequestConfiguration config = new AuthenticationRequestConfiguration("");
+                config.UseDialog = false;
+                var result = await CrossFingerprint.Current.AuthenticateAsync(config);
+                if (!IsBusy && result.Authenticated)
+                {
+                    IsBusy = true;
+                    LockState = await IoTServiceProxy.ChangeLockStateAsync();
+                    IsBusy = false;
+                }
             }
-            ManageFingerPrint();
         }
 
         protected async void CheckLockStateAsync()
@@ -62,16 +67,15 @@ namespace LockMobileClient.ViewModels
             try
             {
                 LockState = await IoTServiceProxy.GetLockStatusAsync();
+                IsBusy = false;
+                IsLoaded = true;
+                await ManageFingerPrintAsync();
             }
             catch (Exception ex)
             {
                 IsBusy = false;
                 await NavigationService.GetCurrentPage().DisplayAlert("IoT controller exception", "Connection invalid", "OK");
                 await NavigationService.PopAsync();
-            }
-            finally
-            {
-                IsBusy = false;
             }
         }
     }
